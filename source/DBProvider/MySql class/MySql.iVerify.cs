@@ -6,7 +6,7 @@ namespace sqldsl.DBProvider {
     public sealed partial class MySql {
         //---------------------------------------------------------------------
 
-        public iVerify onFailure (Action <iState> onFailure)
+        public iSuccess onFailure (Action <iState> onFailure)
         {
             if ( !wasSuccess )
             {

@@ -6,8 +6,9 @@ namespace sqldsl.DBProvider {
 
     public sealed partial class MySql:  iState,
                                         iConnect,
-                                        iExecute,
-                                        iVerify
+                                        iFailure,
+                                        iSuccess,
+                                        iExecute
     {
         //---------------------------------------------------------------------
 

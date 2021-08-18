@@ -6,7 +6,7 @@ namespace sqldsl.DBProvider {
     public sealed partial class MySql {
         //---------------------------------------------------------------------
 
-        public iVerify open (string connection)
+        public iFailure open (string connection)
         {
             close();
             _connection = new MySqlConnection (connection);

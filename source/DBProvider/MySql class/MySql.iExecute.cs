@@ -8,7 +8,7 @@ namespace sqldsl.DBProvider {
     public sealed partial class MySql {
         //---------------------------------------------------------------------
 
-        public iVerify query (string query, Action <DbDataReader> onResult)
+        public iFailure query (string query, Action <DbDataReader> onResult)
         {
             MySqlCommand    cmd     = null;
             MySqlDataReader reader  = null;

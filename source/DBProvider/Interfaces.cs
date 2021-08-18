@@ -18,26 +18,31 @@ namespace sqldsl.DBProvider
 
     public interface iConnect
     {
-        iVerify  open  (string connection);
+        iFailure open  (string connection);
         iConnect close ();
     }
     //-------------------------------------------------------------------------
 
-    public interface iVerify: iExecute
+    public interface iFailure
     {
-        iVerify? onFailure (Action <iState>? onFailure);
-        iExecute onSuccess (Action <iState>? onSuccess);
+        iSuccess? onFailure (Action <iState>? onFailure = null);
+    }
+    //-------------------------------------------------------------------------
+
+    public interface iSuccess: iExecute
+    {
+        iExecute onSuccess (Action <iState>? onSuccess = null);
     }
     //-------------------------------------------------------------------------
 
     public interface iExecute : iConnect
     {
-        iVerify query (string queryString, Action <DbDataReader> onResult);
+        iFailure query (string queryString, Action <DbDataReader> onResult);
 
-        async Task <iVerify> queryAsync (string queryString, Action<DbDataReader> onResult)
-        =>  await Task.Run <iVerify> ( () => query (queryString, onResult) );
+        async Task <iFailure> queryAsync (string queryString, Action<DbDataReader> onResult)
+        =>  await Task.Run <iFailure> ( () => query (queryString, onResult) );
 
-        iVerify querySync (string queryString, Action <DbDataReader> onResult)
+        iFailure querySync (string queryString, Action <DbDataReader> onResult)
         =>  Task.Run ( () => queryAsync (queryString, onResult) ).Result;
     }
     //-------------------------------------------------------------------------
