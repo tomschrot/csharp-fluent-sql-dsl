@@ -55,7 +55,7 @@ Console.WriteLine ("\n\nMYSQL DSL\n");
 
 //-----------------------------------------------------------------------------
 Providers
-    .UseMYSQL   ( MYSQLCONNECTION )
+    .MYSQL      ( MYSQLCONNECTION )
     .onFailure  ( state => Console.WriteLine (state.errorMessage) )
     ?.query     ( QUERY_A, row => printRow (row) )
     ?.onFailure ( state => Console.WriteLine (state.errorMessage) )

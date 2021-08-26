@@ -12,10 +12,6 @@ namespace sqldsl.DBProvider {
     {
         //---------------------------------------------------------------------
 
-        private MySqlConnection _connection = null;
-
-        //---------------------------------------------------------------------
-
         public bool     isConnected  { get; private set; } = false;
         public bool     wasSuccess	 { get; private set; } = true;
         public int      errorCode    { get; private set; } = 0;
@@ -31,7 +27,6 @@ namespace sqldsl.DBProvider {
 
         //---------------------------------------------------------------------
 
-        public void Dispose () => close ();
 
         //---------------------------------------------------------------------
 

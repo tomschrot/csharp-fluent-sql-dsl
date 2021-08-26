@@ -1,9 +1,14 @@
 
+using System;
 using MySqlConnector;
 
 namespace sqldsl.DBProvider {
 
-    public sealed partial class MySql {
+    public sealed partial class MySql: IDisposable {
+        //---------------------------------------------------------------------
+
+        private MySqlConnection _connection = null;
+
         //---------------------------------------------------------------------
 
         public iFailure open (string connection)
@@ -39,6 +44,10 @@ namespace sqldsl.DBProvider {
             isConnected = false;
             return this;
         }
+        //---------------------------------------------------------------------
+
+        public void Dispose () => close ();
+
         //---------------------------------------------------------------------
     }
 }
