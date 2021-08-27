@@ -54,18 +54,18 @@ catch ( MySqlException ex )
 Console.WriteLine ("\n\nMYSQL DSL\n");
 
 //-----------------------------------------------------------------------------
+
 Providers
     .MYSQL      ( MYSQLCONNECTION )
     .onFailure  ( state => Console.WriteLine (state.errorMessage) )
-    ?.query     ( QUERY_A, row => printRow (row) )
+    ?.query     ( QUERY_A, printRow )
     ?.onFailure ( state => Console.WriteLine (state.errorMessage) )
     ?.onSuccess ( state => Console.WriteLine ("Query A OK\n") )
-    ?.query     ( QUERY_B, row => printRow (row) )
+    ?.query     ( QUERY_B, printRow )
     ?.onFailure ( state => Console.WriteLine (state.errorMessage) )
     ?.onSuccess ( state => Console.WriteLine ("Query B OK\n") )
     ?.close     ( )
     ;
-
 //-----------------------------------------------------------------------------
 
 Console.WriteLine ($"\r\nOK @ {DateTime.Now}");
