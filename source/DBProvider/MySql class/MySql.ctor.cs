@@ -1,5 +1,4 @@
 
-using System;
 using MySqlConnector;
 
 namespace sqldsl.DBProvider {
@@ -24,9 +23,6 @@ namespace sqldsl.DBProvider {
 
         internal MySql () {}
         internal MySql (string connection) => open (connection);
-
-        //---------------------------------------------------------------------
-
 
         //---------------------------------------------------------------------
 

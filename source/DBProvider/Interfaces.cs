@@ -38,7 +38,9 @@ namespace sqldsl.DBProvider
     public interface iExecute : iConnect
     {
         iFailure query (string queryString, Action <DbDataReader> onResult);
+
         //---------------------------------------------------------------------
+
         iFailure querySync
         (
             string                  queryString,
@@ -48,6 +50,7 @@ namespace sqldsl.DBProvider
             .Run ( () => queryAsync (queryString, onResult) )
             .Result;
         //---------------------------------------------------------------------
+
         async Task <iFailure> queryAsync
         (
             string                  queryString,
@@ -55,6 +58,7 @@ namespace sqldsl.DBProvider
         )
         =>  await Task
             .Run <iFailure> ( () => query (queryString, onResult) );
+        //---------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------
     #nullable disable
