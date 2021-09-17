@@ -5,14 +5,14 @@
     <TargetFramework>net5.0</TargetFramework>
 	<LangVersion>9.0</LangVersion>
 	<DefineConstants>_TEST_</DefineConstants>
-    <NoWarn>$(NoWarn),IDE0044, IDE1006, IDE0060, IDE0075</NoWarn>
+    <NoWarn>$(NoWarn),IDE0044, IDE1006, IDE0060, IDE0075, CS0219, CS8321</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-<!--	
+<!--
     <ProjectReference Include="" />
 	<PackageReference Include="" Version="*" />
--->	
+-->
   </ItemGroup>
 
   <ItemGroup>

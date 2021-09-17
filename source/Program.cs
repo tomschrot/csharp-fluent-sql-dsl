@@ -1,10 +1,11 @@
 
+using System.Collections.Generic;
 using System;
-using System.Data.Common;
-
-using MySqlConnector;
-
+using sqldsl.Models;
 using sqldsl.DBProvider;
+
+using static sqldsl.Extensions;
+
 //-----------------------------------------------------------------------------
 
 Console.WriteLine ("MYSQL Fluent Interface / DSL Example\nby Tom Schröter");
@@ -13,72 +14,33 @@ Console.WriteLine ("MYSQL Fluent Interface / DSL Example\nby Tom Schröter");
 
 const string MYSQLCONNECTION = "server=localhost; user=root; password=;";
 
-const string QUERY_A = "SELECT * FROM classicmodels.customers WHERE country LIKE '%ital%'";
-const string QUERY_B = "SELECT * FROM classicmodels.customers WHERE country LIKE '%bel%'";
+const string QUERY_A = "SELECT * FROM classicmodels.customerx WHERE country LIKE '%ital%'";
+const string QUERY_B = "SELECT * FROM classicmodels.products WHERE productName LIKE '%ford%'";
 
 //-----------------------------------------------------------------------------
 
-Console.WriteLine ("\n\nClassic MYSQL \n");
-
+(await Database.collect <Customer> (MYSQLCONNECTION, QUERY_A))
+.check
+(
+    @if   : my => my.state.errorCode == 0,
+    @then : my => showList (my.data),
+    @else : my => Console.WriteLine (my.state.errorMessage)
+);
 //-----------------------------------------------------------------------------
 
-try
-{
-    using ( MySqlConnection connection = new (MYSQLCONNECTION) )
-    {
-        connection.Open ();
-
-        using ( MySqlCommand comand = new (QUERY_A, connection) )
-            using ( MySqlDataReader reader = comand.ExecuteReader () )
-                while ( reader.Read() )
-                    printRow ( reader );
-
-        Console.WriteLine ("Query A OK\n");
-
-        using ( MySqlCommand comand = new (QUERY_B, connection) )
-            using ( MySqlDataReader reader = comand.ExecuteReader () )
-                while ( reader.Read() )
-                    printRow ( reader );
-
-        Console.WriteLine ("Query B OK\n");
-
-        connection.Close ();
-    }
-}
-catch ( MySqlException ex )
-{
-    Console.WriteLine ( ex.Message );
-}
-//-----------------------------------------------------------------------------
-
-Console.WriteLine ("\n\nMYSQL DSL\n");
-
-//-----------------------------------------------------------------------------
-
-Providers
-    .MYSQL      ( MYSQLCONNECTION )
-    .onFailure  ( state => Console.WriteLine (state.errorMessage) )
-    ?.query     ( QUERY_A, printRow )
-    ?.onFailure ( state => Console.WriteLine (state.errorMessage) )
-    ?.onSuccess ( state => Console.WriteLine ("Query A OK\n") )
-    ?.query     ( QUERY_B, printRow )
-    ?.onFailure ( state => Console.WriteLine (state.errorMessage) )
-    ?.onSuccess ( state => Console.WriteLine ("Query B OK\n") )
-    ?.close     ( )
-    ;
+(await Database.collect <Product> (MYSQLCONNECTION, QUERY_B))
+.check
+(
+    @if   : my => my.state.errorCode == 0,
+    @then : my => showList (my.data)
+);
 //-----------------------------------------------------------------------------
 
 Console.WriteLine ($"\r\nOK @ {DateTime.Now}");
 
 //-----------------------------------------------------------------------------
-
-void printRow (DbDataReader row)
-=>
-    Console.WriteLine
-    (
-        "{0}, {1}, {2}",
-        row["customerName"],
-        row["addressLine1"],
-        row["city"]
-    );
-//-----------------------------------------------------------------------------
+void showList<T> (IEnumerable<T> items)
+{
+    foreach (var item in items)
+        Console.WriteLine (item);
+}

@@ -31,7 +31,7 @@ namespace sqldsl.DBProvider {
             {
                 wasSuccess   = false;
                 errorCode    = ex.Number;
-                errorMessage = errorMessageToString (ex, query);
+                errorMessage = errorMessageToString (ex);
             }
             finally
             {

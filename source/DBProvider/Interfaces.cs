@@ -37,6 +37,9 @@ namespace sqldsl.DBProvider
 
     public interface iExecute : iConnect
     {
+        //iFailure query <R> (string queryString, Func <DbDataReader, R> onResult);
+
+
         iFailure query (string queryString, Action <DbDataReader> onResult);
 
         //---------------------------------------------------------------------

@@ -26,15 +26,10 @@ namespace sqldsl.DBProvider {
 
         //---------------------------------------------------------------------
 
-        private string  errorMessageToString (MySqlException ex, string query = "")
+        private string  errorMessageToString (MySqlException ex)
         =>
-            string.Format
-            (
-                "ERROR {0} {1}\n\n{2}\n",
-                ex.Number,
-                ex.Message,
-                query
-            );
+            $"Error {ex.Number} : {ex.Message}\n";
+
         //---------------------------------------------------------------------
     }
 }
