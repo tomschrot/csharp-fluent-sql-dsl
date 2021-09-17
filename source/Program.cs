@@ -1,8 +1,8 @@
 
-using System.Collections.Generic;
 using System;
 using sqldsl.Models;
 using sqldsl.DBProvider;
+using System.Collections.Generic;
 
 using static sqldsl.Extensions;
 
@@ -14,12 +14,14 @@ Console.WriteLine ("MYSQL Fluent Interface / DSL Example\nby Tom Schröter");
 
 const string MYSQLCONNECTION = "server=localhost; user=root; password=;";
 
-const string QUERY_A = "SELECT * FROM classicmodels.customerx WHERE country LIKE '%ital%'";
+const string QUERY_A = "SELECT * FROM classicmodels.customers WHERE country LIKE '%ital%'";
 const string QUERY_B = "SELECT * FROM classicmodels.products WHERE productName LIKE '%ford%'";
 
 //-----------------------------------------------------------------------------
 
-(await Database.collect <Customer> (MYSQLCONNECTION, QUERY_A))
+MySql.useConnection ( MYSQLCONNECTION );
+
+(await MySql.collect <Customer> (QUERY_A))
 .check
 (
     @if   : my => my.state.errorCode == 0,
@@ -28,11 +30,12 @@ const string QUERY_B = "SELECT * FROM classicmodels.products WHERE productName L
 );
 //-----------------------------------------------------------------------------
 
-(await Database.collect <Product> (MYSQLCONNECTION, QUERY_B))
+(await MySql.collect <Product> (QUERY_B))
 .check
 (
     @if   : my => my.state.errorCode == 0,
-    @then : my => showList (my.data)
+    @then : my => showList (my.data),
+    @else : my => Console.WriteLine (my.state.errorMessage)
 );
 //-----------------------------------------------------------------------------
 

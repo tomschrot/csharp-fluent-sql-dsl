@@ -4,8 +4,6 @@ using System.Reflection;
 using System.Data.Common;
 using System.Collections.Generic;
 
-using static sqldsl.Extensions;
-
 namespace sqldsl.DBProvider {
 
     public sealed class ObjectMapper <T> where T : class, new()
